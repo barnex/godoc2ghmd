@@ -90,12 +90,36 @@ func (p *myPres) exampleMDFunc(info *godoc.PageInfo, funcName, indent string) st
 
 		buf.WriteString(indent)
 		buf.WriteString("Example:\n\n")
-		buf.WriteString("<details>\n")
-		buf.WriteString("<summary>Click to expand code.</summary>\n\n")
+		//buf.WriteString("<details>\n")
+		//buf.WriteString("<summary>Click to expand code.</summary>\n\n")
 		buf.WriteString("```go\n")
-		buf.WriteString(code)
+		source, output := splitOutput(code)
+		buf.WriteString(source)
 		buf.WriteString("\n```\n\n")
-		buf.WriteString("</details>\n")
+		//buf.WriteString("</details>\n")
+		buf.WriteString(output)
 	}
 	return buf.String()
+}
+
+func splitOutput(code string) (source string, output string) {
+	lines := strings.Split(code, "\n")
+	i := 0
+	for i < len(lines) {
+		if strings.Contains(lines[i], "Output:") {
+			break
+		}
+		i++
+	}
+	src := lines[:i]
+	for i := range src {
+		src[i] = strings.TrimLeft(src[i], " \t")
+	}
+	out := lines[i+1:]
+	for i := range out {
+		out[i] = strings.TrimLeft(out[i], " \t/")
+	}
+	source = strings.Join(src, "\n")
+	output = strings.Join(out, "\n")
+	return
 }
