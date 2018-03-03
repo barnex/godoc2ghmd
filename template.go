@@ -5,21 +5,12 @@ var pkgTemplate = `{{with .PDoc}}
 > {{ base .ImportPath }}
 {{comment_md .Doc}}
 {{else}}
+
+
 # {{ .Name }}
-` + "`" + `import "{{.ImportPath | import_as}}"` + "`" + `
 
-* [Overview](#pkg-overview)
-* [Imported Packages](#pkg-imports)
-* [Index](#pkg-index){{if $.Examples}}
-* [Examples](#pkg-examples){{- end}}
-
-## <a name="pkg-overview">Overview</a>
 {{pkgdoc_md .Doc}}
 {{example_md $ "" "#### "}}
-
-## <a name="pkg-imports">Imported Packages</a>
-
-{{list_imports $ .Imports (.ImportPath|import_as)}}
 
 ## <a name="pkg-index">Index</a>{{if .Consts}}
 * [Constants](#pkg-constants){{end}}{{if .Vars}}
@@ -33,9 +24,8 @@ var pkgTemplate = `{{with .PDoc}}
 #### <a name="pkg-examples">Examples</a>{{- range $.Examples}}
 * [{{example_name .Name}}](#example_{{.Name}}){{- end}}{{- end}}
 {{with .Filenames}}
-#### <a name="pkg-files">Package files</a>
-{{range .}}[{{.|filename|html}}]({{print "./"  (.|filename)}}) {{end}}
 {{end}}
+
 
 {{with .Consts}}## <a name="pkg-constants">Constants</a>
 {{range .}}{{node $ .Decl | pre}}
@@ -86,4 +76,6 @@ var pkgTemplate = `{{with .PDoc}}
 {{end}}
 {{end}}
 {{end}}
+
+
 `
