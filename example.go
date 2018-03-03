@@ -117,7 +117,7 @@ func splitOutput(code string) (source string, output string) {
 	}
 	out := lines[i+1:]
 	for i := range out {
-		out[i] = strings.TrimLeft(out[i], " \t/")
+		out[i] = "![fig](/doc/" + strings.TrimLeft(out[i], " \t/") + ".jpg)"
 	}
 	source = strings.Join(src, "\n")
 	output = strings.Join(out, "\n")
